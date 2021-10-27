@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.crud.rest.models.entity.Persona;
+import com.crud.rest.models.entity.Relacion;
 import com.crud.rest.models.service.IPersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -77,13 +78,6 @@ public class PersonaController {
             response.put("error", e.getMessage().concat(": ".concat(e.getMostSpecificCause().getMessage())));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
         }
-        /*
-        if (nuevaPersona == null) {
-            response.put("mensaje", "No pueden existir personas repetidas, o personas menores de edad(18)");
-            return  new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-        }
-        */
-
         response.put("mensaje", "Se guardo correctamente");
         response.put("persona", nuevaPersona);
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -142,6 +136,13 @@ public class PersonaController {
         response.put("cantidad_hombres", personaService.cantidadHombres());
         response.put("cantidad_mujeres", personaService.cantidadMujeres());
         response.put("porcentaje_argentinos", personaService.porcentajeDeArgentinos());
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/personas/{idPrimario}/padre/{idSecundario}")
+    public ResponseEntity<?> relacionarPersonas(@PathVariable() Long idPrimario, @PathVariable() Long idSecundario ) {
+        Map<String, Object> response = new HashMap<>();
+
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 }
