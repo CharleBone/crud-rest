@@ -12,8 +12,6 @@ public interface IPersonaService {
 
     public Persona guardarPersona(Persona persona);
 
-    public Persona actualizarPersona(Persona persona, Long id);
-
     public void eliminarPersona(Long id);
 
     public int cantidadHombres();

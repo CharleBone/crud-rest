@@ -5,11 +5,18 @@ import com.crud.rest.models.entity.Relacion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RelacionServiceImpl implements IRelacionService{
 
     @Autowired
     RelacionDao relacionDao;
+
+    @Override
+    public List<Relacion> buscarRelaciones() {
+        return relacionDao.findAll();
+    }
 
     @Override
     public Relacion buscarRelacionPorId(Long id) {

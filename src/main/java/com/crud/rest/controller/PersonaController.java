@@ -11,6 +11,8 @@ import javax.validation.Valid;
 import com.crud.rest.models.entity.Persona;
 import com.crud.rest.models.entity.Relacion;
 import com.crud.rest.models.service.IPersonaService;
+import com.crud.rest.models.service.IRelacionService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,9 @@ public class PersonaController {
 
     @Autowired
     private IPersonaService personaService;
+
+    @Autowired
+    private IRelacionService relacionService;
 
     @GetMapping("/personas")
     public List<Persona> listar(){
@@ -85,6 +90,7 @@ public class PersonaController {
 
     @PutMapping("/personas/{id}")
     public ResponseEntity<?> actualizarPersona(@Valid @RequestBody Persona persona,  BindingResult result , @PathVariable() Long id){
+        Persona personaActual = personaService.buscarPersonaPorId(id);
         Persona personaActualizada = null;
         Map<String, Object> response = new HashMap<>();
 
@@ -99,7 +105,14 @@ public class PersonaController {
         }
 
         try {
-            personaActualizada = personaService.actualizarPersona(persona, id);
+            personaActual.setNombre(persona.getNombre());
+            personaActual.setEdad(persona.getEdad());
+            personaActual.setEmail(persona.getEmail());
+            personaActual.setPais(persona.getPais());
+            personaActual.setNumeroDni(persona.getNumeroDni());
+            personaActual.setTelefono(persona.getTelefono());
+            personaActual.setTipoDocumento(persona.getTipoDocumento());
+            personaActualizada = personaService.guardarPersona(personaActual);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al actualizar al cliente en la base de datos");
             response.put("error", e.getMessage().concat(": ".concat(e.getMostSpecificCause().getMessage())));
@@ -142,7 +155,21 @@ public class PersonaController {
     @PostMapping("/personas/{idPrimario}/padre/{idSecundario}")
     public ResponseEntity<?> relacionarPersonas(@PathVariable() Long idPrimario, @PathVariable() Long idSecundario ) {
         Map<String, Object> response = new HashMap<>();
+        Relacion relacion = new Relacion();
+        relacion.setIdPrimario(idPrimario);
+        relacion.setIdSecundario(idSecundario);
+        Persona personaPrincipal = personaService.buscarPersonaPorId(idPrimario);
+        Persona persondaSecundaria = personaService.buscarPersonaPorId(idSecundario);
+            personaPrincipal.setRelaciones(relacion);
+            personaPrincipal = personaService.guardarPersona(personaPrincipal);
 
+
+            persondaSecundaria.setRelaciones(relacion);
+            persondaSecundaria = personaService.guardarPersona(persondaSecundaria);
+
+        response.put("relacion", relacion);
+        response.put("personaPrincipal", personaPrincipal);
+        response.put("personaSecundaria", persondaSecundaria);
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 }

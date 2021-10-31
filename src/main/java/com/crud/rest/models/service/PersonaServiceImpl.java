@@ -29,12 +29,6 @@ public class PersonaServiceImpl implements IPersonaService {
     }
 
     @Override
-    public Persona actualizarPersona(Persona persona, Long id) {
-        Persona personaActual = personaDao.findById(id).orElse(null);
-        return personaActual;
-    }
-
-    @Override
     public void eliminarPersona(Long id) {
         personaDao.deleteById(id);
     }

@@ -1,13 +1,12 @@
 package com.crud.rest.models.entity;
 
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -39,6 +38,11 @@ public class Persona implements Serializable {
     private String numeroDni;
     @NotEmpty
     private String tipoDocumento;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "idRelaciones")
+    private Relacion relaciones;
 
 
     public Long getId() {
@@ -111,5 +115,13 @@ public class Persona implements Serializable {
 
     public void setTipoDocumento(String tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
+    }
+
+    public Relacion getRelaciones() {
+        return relaciones;
+    }
+
+    public void setRelaciones(Relacion relaciones) {
+        this.relaciones = relaciones;
     }
 }
