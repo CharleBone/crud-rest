@@ -12,4 +12,6 @@ public interface IRelacionService {
     public Relacion buscarRelacionPorId(Long id);
 
     public Relacion guardarRelacion(Relacion relacion);
+
+    public Relacion buscarRelacionAnterior(Long id);
 }

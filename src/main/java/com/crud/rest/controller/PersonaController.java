@@ -39,12 +39,12 @@ public class PersonaController {
     private IRelacionService relacionService;
 
     @GetMapping("/personas")
-    public List<Persona> listar(){
+    public List<Persona> listar() {
         return personaService.buscarPersonas();
     }
 
     @GetMapping("/personas/{id}")
-    public ResponseEntity<?> mostrarPersona(@PathVariable() Long id){
+    public ResponseEntity<?> mostrarPersona(@PathVariable() Long id) {
         Persona persona = null;
         Map<String, Object> response = new HashMap<>();
         try {
@@ -62,7 +62,7 @@ public class PersonaController {
     }
 
     @PostMapping("/personas")
-    public ResponseEntity<?> guardarPersona(@Valid @RequestBody() Persona persona, BindingResult result){
+    public ResponseEntity<?> guardarPersona(@Valid @RequestBody() Persona persona, BindingResult result) {
         Persona nuevaPersona = null;
         Map<String, Object> response = new HashMap<>();
 
@@ -89,7 +89,7 @@ public class PersonaController {
     }
 
     @PutMapping("/personas/{id}")
-    public ResponseEntity<?> actualizarPersona(@Valid @RequestBody Persona persona,  BindingResult result , @PathVariable() Long id){
+    public ResponseEntity<?> actualizarPersona(@Valid @RequestBody Persona persona, BindingResult result, @PathVariable() Long id) {
         Persona personaActual = personaService.buscarPersonaPorId(id);
         Persona personaActualizada = null;
         Map<String, Object> response = new HashMap<>();
@@ -130,7 +130,7 @@ public class PersonaController {
     }
 
     @DeleteMapping("/personas/{id}")
-    public ResponseEntity<?> eliminarProducto(@PathVariable() Long id){
+    public ResponseEntity<?> eliminarProducto(@PathVariable() Long id) {
         Map<String, Object> response = new HashMap<>();
         try {
             personaService.eliminarPersona(id);
@@ -153,20 +153,17 @@ public class PersonaController {
     }
 
     @PostMapping("/personas/{idPrimario}/padre/{idSecundario}")
-    public ResponseEntity<?> relacionarPersonas(@PathVariable() Long idPrimario, @PathVariable() Long idSecundario ) {
+    public ResponseEntity<?> relacionarPersonas(@PathVariable() Long idPrimario, @PathVariable() Long idSecundario) {
         Map<String, Object> response = new HashMap<>();
         Relacion relacion = new Relacion();
         relacion.setIdPrimario(idPrimario);
         relacion.setIdSecundario(idSecundario);
         Persona personaPrincipal = personaService.buscarPersonaPorId(idPrimario);
         Persona persondaSecundaria = personaService.buscarPersonaPorId(idSecundario);
-            personaPrincipal.setRelaciones(relacion);
-            personaPrincipal = personaService.guardarPersona(personaPrincipal);
-
-
-            persondaSecundaria.setRelaciones(relacion);
-            persondaSecundaria = personaService.guardarPersona(persondaSecundaria);
-
+        personaPrincipal.setRelaciones(relacion);
+        personaPrincipal = personaService.guardarPersona(personaPrincipal);
+        persondaSecundaria.setRelaciones(relacion);
+        persondaSecundaria = personaService.guardarPersona(persondaSecundaria);
         response.put("relacion", relacion);
         response.put("personaPrincipal", personaPrincipal);
         response.put("personaSecundaria", persondaSecundaria);

@@ -42,18 +42,5 @@ public class Relacion implements Serializable {
     public void setIdSecundario(Long idSecundario) {
         this.idSecundario = idSecundario;
     }
- /*
-    public List<Persona> getPersonas() {
-        return personas;
-    }
 
-    public void setPersonas(List<Persona> personas) {
-        this.personas = personas;
-    }
-
-    public void addRelacion(Persona persona) {
-        this.personas.add(persona);
-    }
-
-  */
 }

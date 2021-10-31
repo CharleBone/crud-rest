@@ -27,4 +27,17 @@ public class RelacionServiceImpl implements IRelacionService{
     public Relacion guardarRelacion(Relacion relacion) {
         return relacionDao.save(relacion);
     }
+
+    @Override
+    public Relacion buscarRelacionAnterior(Long id) {
+        List<Relacion> relaciones = relacionDao.findAll();
+        Relacion relacion = null;
+        for (Relacion r : relaciones) {
+            if (r.getIdSecundario().equals(id)) {
+                relacion =  relacionDao.findById(r.getIdRelaciones()).orElse(null);
+                break;
+            }
+        }
+        return relacion;
+    }
 }

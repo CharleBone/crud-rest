@@ -6,12 +6,17 @@ import com.crud.rest.models.service.IPersonaService;
 import com.crud.rest.models.service.IRelacionService;
 import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -24,58 +29,32 @@ public class RelacionController {
     IPersonaService personaService;
 
     @GetMapping("/relacion/{idPrimario}/{idSecundario}")
-    public String obtenerRelacion(@PathVariable() Long idPrimario, @PathVariable() Long idSecundario) {
+    public ResponseEntity<?> obtenerRelacion(@PathVariable() Long idPrimario, @PathVariable() Long idSecundario) {
+        Map<String, Object> response = new HashMap<>();
         Persona persona = personaService.buscarPersonaPorId(idPrimario);
         Persona persona2 = personaService.buscarPersonaPorId(idSecundario);
-        String mensaje = "";
-        Relacion relacion = null;
-        Relacion relacion2 = null;
-        Relacion relacion3 = null;
-        Relacion relacion4 = null;
-        /*
-        if (persona.getRelaciones().getIdRelaciones().equals(persona2.getRelaciones().getIdRelaciones())) {
-            relacion = relacionService.buscarRelacionPorId(persona.getRelaciones().getIdPrimario());
-            if (relacion != null) {
-                mensaje = "Padre:".concat(relacion.getIdPrimario().toString()).concat(" e Hijo : ").concat(relacion.getIdSecundario().toString());
-            }
-        } else {
+        Relacion relaciones[] = new Relacion[4];
 
-        }
+        relaciones[0] = relacionService.buscarRelacionPorId(persona.getRelaciones().getIdRelaciones());
+        relaciones[1] = relacionService.buscarRelacionPorId(persona2.getRelaciones().getIdRelaciones());
 
-         */
-
-        relacion = relacionService.buscarRelacionPorId(persona.getRelaciones().getIdRelaciones());
-        relacion2 = relacionService.buscarRelacionPorId(persona2.getRelaciones().getIdRelaciones());
-        if (relacion != null & relacion2 != null) {
-            List<Relacion> relaciones = relacionService.buscarRelaciones();
-            for (Relacion r : relaciones) {
-                if (r.getIdSecundario().equals(relacion.getIdPrimario())) {
-                    relacion3 = relacionService.buscarRelacionPorId(r.getIdRelaciones());
-                }
-            }
-
-            for (Relacion r : relaciones) {
-                if (r.getIdSecundario().equals(relacion2.getIdPrimario())) {
-                    relacion4 = relacionService.buscarRelacionPorId(r.getIdRelaciones());
-                }
-            }
-            if (relacion3 != null & relacion4 != null) {
-                if (relacion3.getIdPrimario().equals(relacion4.getIdPrimario())) {
+        if (relaciones[0] != null && relaciones[1] != null) {
+            relaciones[2] = relacionService.buscarRelacionAnterior(relaciones[0].getIdPrimario());
+            relaciones[3] = relacionService.buscarRelacionAnterior(relaciones[1].getIdPrimario());
+            if (relaciones[2] != null && relaciones[3] != null) {
+                if (relaciones[2].getIdPrimario().equals(relaciones[3].getIdPrimario())) {
                     // existen relacion, podria ser primos o tios o hermanos
-                    mensaje =  "Hermanos:".concat(relacion3.getIdSecundario().toString()).concat(" e : ").concat(relacion4.getIdSecundario().toString());
-                    mensaje += " Tio ";
-                    mensaje += " Primos ";
+                    response.put("Relacion", "Hermano");
                 } else {
-                    mensaje = "No existe relacion";
+                    response.put("Error", "No existe relacion");
                 }
             } else {
-                mensaje = "No existe relacion";
+                response.put("Error", "No existe relacion");
             }
-
         } else {
-            mensaje = "No existe relacion";
+            response.put("Error", "No existe relacion");
         }
-        return mensaje;
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }
 
 
