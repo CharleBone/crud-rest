@@ -3,7 +3,7 @@
 ---
 
 
-El proyecto consiste en generar una API-REST que exponga un servicio de agregar personas mayores de 18 años
+El proyecto consiste en generar una API-REST que exponga un servicio CRUD(Create, Read, Update, Delete) de personas mayores de 18 años
 
 ## Contenido
 
