@@ -39,11 +39,6 @@ public class Persona implements Serializable {
     @NotEmpty
     private String tipoDocumento;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "idRelaciones")
-    private Relacion relaciones;
-
 
     public Long getId() {
         return id;
@@ -117,11 +112,4 @@ public class Persona implements Serializable {
         this.tipoDocumento = tipoDocumento;
     }
 
-    public Relacion getRelaciones() {
-        return relaciones;
-    }
-
-    public void setRelaciones(Relacion relaciones) {
-        this.relaciones = relaciones;
-    }
 }
