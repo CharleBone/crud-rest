@@ -14,9 +14,7 @@ public interface IPersonaService {
 
     public void eliminarPersona(Long id);
 
-    public int cantidadHombres();
-
-    public int cantidadMujeres();
+    public int cantidadPersonasPorGenero(String genero);
 
     public int porcentajeDeArgentinos();
 }

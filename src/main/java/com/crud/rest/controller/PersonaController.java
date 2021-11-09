@@ -141,8 +141,8 @@ public class PersonaController {
     @GetMapping("/estadisticas")
     public ResponseEntity<?> estadisticasTotales() {
         Map<String, Object> response = new HashMap<>();
-        response.put("cantidad_hombres", personaService.cantidadHombres());
-        response.put("cantidad_mujeres", personaService.cantidadMujeres());
+        response.put("cantidad_hombres", personaService.cantidadPersonasPorGenero("M"));
+        response.put("cantidad_mujeres", personaService.cantidadPersonasPorGenero("F"));
         response.put("porcentaje_argentinos", personaService.porcentajeDeArgentinos());
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }

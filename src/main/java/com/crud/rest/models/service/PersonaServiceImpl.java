@@ -33,27 +33,17 @@ public class PersonaServiceImpl implements IPersonaService {
         personaDao.deleteById(id);
     }
 
-    public int cantidadHombres() {
+    public int cantidadPersonasPorGenero(String genero) {
         List<Persona> personas = buscarPersonas();
-        int totalHombres = 0;
+        int personasDeGenero = 0;
         for (Persona p : personas) {
-            if (p.getSexo().equals("M")) {
-                totalHombres++;
+            if (p.getSexo().equals(genero)) {
+            	personasDeGenero++;
             }
         }
-        return totalHombres;
+        return personasDeGenero;
     }
 
-    public int cantidadMujeres() {
-        List<Persona> personas = buscarPersonas();
-        int totalMujeres = 0;
-        for (Persona p : personas) {
-            if (p.getSexo().equals("F")) {
-                totalMujeres++;
-            }
-        }
-        return totalMujeres;
-    }
 
     public int porcentajeDeArgentinos() {
         List<Persona> personas = buscarPersonas();
