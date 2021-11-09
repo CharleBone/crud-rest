@@ -38,9 +38,25 @@ public class Persona implements Serializable {
     private String numeroDni;
     @NotEmpty
     private String tipoDocumento;
+    
+    public Persona(@NotEmpty String nombre,
+			@NotEmpty @Min(value = 18, message = "No puede registrar personas menores de 18 años") String edad,
+			@NotEmpty String pais, @NotEmpty @Email String email, @NotEmpty String telefono, @NotEmpty String sexo,
+			@NotEmpty String numeroDni, @NotEmpty String tipoDocumento) {
+		super();
+		this.nombre = nombre;
+		this.edad = edad;
+		this.pais = pais;
+		this.email = email;
+		this.telefono = telefono;
+		this.sexo = sexo;
+		this.numeroDni = numeroDni;
+		this.tipoDocumento = tipoDocumento;
+	}
+    
+    public Persona() {}
 
-
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
