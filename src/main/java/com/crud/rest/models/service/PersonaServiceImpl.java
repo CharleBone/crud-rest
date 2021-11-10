@@ -2,6 +2,8 @@ package com.crud.rest.models.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,10 +34,12 @@ public class PersonaServiceImpl implements IPersonaService {
 
 	@Override
 	public Persona guardarPersona(Persona persona) {
-		Persona nuevaPersona = personaDao.save(persona);
 		if (existenLaPersona(persona.getNumeroDni())) {
 			throw new BadRequestException("No pueden existir personas con el mismo numero de DNI");
 		}
+		
+		Persona nuevaPersona = personaDao.save(persona);
+		
 		if (nuevaPersona == null) {
 			throw new NotFoundException("No existe la persona");
 		}
@@ -62,40 +66,22 @@ public class PersonaServiceImpl implements IPersonaService {
 	public void eliminarPersona(Long id) {
 		personaDao.deleteById(id);
 	}
-
+	
+	@Override
 	public int cantidadPersonasPorGenero(String genero) {
-		List<Persona> personas = buscarPersonas();
-		int personasDeGenero = 0;
-		for (Persona p : personas) {
-			if (p.getSexo().equals(genero)) {
-				personasDeGenero++;
-			}
-		}
-		return personasDeGenero;
+		return personaDao.personasPorGenero(genero);
 	}
-
+	
+	@Override
 	public int porcentajeDeArgentinos() {
 		List<Persona> personas = buscarPersonas();
-		int cantidadArg = 0;
-		for (Persona p : personas) {
-			if (p.getPais().equals("Argentina") || p.getPais().equals("argentina")) {
-				cantidadArg++;
-			}
-		}
+		int cantidadArg = personaDao.personasDeArgentina();
 		cantidadArg = cantidadArg * 100 / personas.size();
 		return cantidadArg;
 	}
 
-	@Override
-	public boolean existenLaPersona(String numeroDni) {
-		List<Persona> personas = buscarPersonas();
-		boolean existe = false;
-		for (Persona p : personas) {
-			if (p.getNumeroDni().equals(numeroDni)) {
-				existe = true;
-			}
-		}
-		return existe;
+	public boolean existenLaPersona(String numeroDni) {	
+		return personaDao.buscarCoincidencia(numeroDni);
 	}
 
 }
