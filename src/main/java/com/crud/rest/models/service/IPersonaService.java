@@ -1,22 +1,24 @@
 package com.crud.rest.models.service;
 
-import com.crud.rest.models.entity.Persona;
-
 import java.util.List;
+
+import com.crud.rest.models.entity.Persona;
 
 public interface IPersonaService {
 
-    public List<Persona> buscarPersonas();
+	public List<Persona> buscarPersonas();
 
-    public Persona buscarPersonaPorId(Long id);
+	public Persona buscarPersonaPorId(Long id);
 
-    public Persona guardarPersona(Persona persona);
+	public Persona guardarPersona(Persona persona);
 
-    public void eliminarPersona(Long id);
+	public Persona actualizarPersona(Long id, Persona persona);
 
-    public int cantidadPersonasPorGenero(String genero);
+	public void eliminarPersona(Long id);
 
-    public int porcentajeDeArgentinos();
-    
-    public boolean existenLaPersona(String numeroDni);
+	public int cantidadPersonasPorGenero(String genero);
+
+	public int porcentajeDeArgentinos();
+
+	public boolean existenLaPersona(String numeroDni);
 }
