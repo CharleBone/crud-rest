@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import com.crud.rest.models.entity.Persona;
-import com.crud.rest.models.service.IPersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -23,6 +21,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.crud.rest.exceptions.InvalidDataException;
+import com.crud.rest.models.entity.Persona;
+import com.crud.rest.models.service.IPersonaService;
 
 
 @RestController
@@ -60,24 +62,10 @@ public class PersonaController {
     public ResponseEntity<?> guardarPersona(@Valid @RequestBody() Persona persona, BindingResult result) {
         Persona nuevaPersona = null;
         Map<String, Object> response = new HashMap<>();
-
         if (result.hasErrors()) {
-            List<String> errores = result.getFieldErrors()
-                    .stream()
-                    .map(err -> "El campo '" + err.getField() + "'" + err.getDefaultMessage())
-                    .collect(Collectors.toList());
-
-            response.put("errors", errores);
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        	throw new InvalidDataException(result);
         }
-
-        try {
-            nuevaPersona = personaService.guardarPersona(persona);
-        } catch (DataAccessException e) {
-            response.put("mensaje", "Error al guarda a la persona");
-            response.put("error", e.getMessage().concat(": ".concat(e.getMostSpecificCause().getMessage())));
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-        }
+        nuevaPersona = personaService.guardarPersona(persona);
         response.put("mensaje", "Se guardo correctamente");
         response.put("persona", nuevaPersona);
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -90,13 +78,7 @@ public class PersonaController {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {
-            List<String> errores = result.getFieldErrors()
-                    .stream()
-                    .map(err -> "El campo '" + err.getField() + "'" + err.getDefaultMessage())
-                    .collect(Collectors.toList());
-
-            response.put("errors", errores);
-            return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        	throw new InvalidDataException(result);
         }
 
         try {

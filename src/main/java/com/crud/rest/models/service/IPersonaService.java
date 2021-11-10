@@ -17,4 +17,6 @@ public interface IPersonaService {
     public int cantidadPersonasPorGenero(String genero);
 
     public int porcentajeDeArgentinos();
+    
+    public boolean existenLaPersona(String numeroDni);
 }

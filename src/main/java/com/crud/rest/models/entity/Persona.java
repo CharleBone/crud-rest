@@ -23,7 +23,7 @@ public class Persona implements Serializable {
     @NotEmpty
     private String nombre;
     @NotEmpty
-    @Min(value = 18, message = "No puede registrar personas menores de 18 años")
+    @Min(value = 18, message = " No puede registrar personas menores de 18 años ")
     private String edad;
     @NotEmpty
     private String pais;

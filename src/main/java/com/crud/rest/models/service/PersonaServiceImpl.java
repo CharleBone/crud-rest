@@ -1,7 +1,11 @@
 package com.crud.rest.models.service;
 
+import com.crud.rest.exceptions.BadRequestException;
 import com.crud.rest.models.dao.PersonaDao;
 import com.crud.rest.models.entity.Persona;
+
+import net.bytebuddy.implementation.bytecode.Throw;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +29,9 @@ public class PersonaServiceImpl implements IPersonaService {
 
     @Override
     public Persona guardarPersona(Persona persona) {
+    	if (existenLaPersona(persona.getNumeroDni())) {
+    		throw new BadRequestException("No pueden existir personas con el mismo numero de DNI");
+    	}
         return personaDao.save(persona);
     }
 
@@ -56,6 +63,18 @@ public class PersonaServiceImpl implements IPersonaService {
         cantidadArg = cantidadArg * 100 / personas.size();
         return cantidadArg;
     }
+
+	@Override
+	public boolean existenLaPersona(String numeroDni) {
+		List<Persona> personas = buscarPersonas();
+		boolean existe = false;
+		for(Persona p : personas) {
+			if(p.getNumeroDni().equals(numeroDni)) {
+				existe = true;
+			}
+		}
+		return existe;
+	}
 
 
 }
