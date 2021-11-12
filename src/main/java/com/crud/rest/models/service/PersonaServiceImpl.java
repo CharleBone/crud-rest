@@ -74,7 +74,11 @@ public class PersonaServiceImpl implements IPersonaService {
 	public int porcentajeDeArgentinos() {
 		List<Persona> personas = buscarPersonas();
 		int cantidadArg = personaDao.personasDeArgentina();
-		cantidadArg = cantidadArg * 100 / personas.size();
+		if (personas.size() == 0) {
+			cantidadArg = 0;
+		} else {
+			cantidadArg = cantidadArg * 100 / personas.size();
+		}
 		return cantidadArg;
 	}
 
