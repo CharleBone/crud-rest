@@ -61,14 +61,12 @@ public class PersonaController {
 	@PutMapping("/personas/{id}")
 	public ResponseEntity<?> actualizarPersona(@Valid @RequestBody Persona persona, BindingResult result,
 			@PathVariable() Long id) {
-		Persona personaActualizada = null;
 		Map<String, Object> response = new HashMap<>();
 		if (result.hasErrors()) {
 			throw new InvalidDataException(result);
 		}
-		personaActualizada = personaService.actualizarPersona(id, persona);
+		personaService.actualizarPersona(id, persona);
 		response.put("mensaje", "El cliente ha sido actualizado satifactoriamente");
-		response.put("persona", personaActualizada);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 

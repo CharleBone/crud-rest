@@ -45,8 +45,9 @@ public class PersonaServiceImpl implements IPersonaService {
 	}
 
 	@Override
-	public Persona actualizarPersona(Long id, Persona persona) {
+	public void actualizarPersona(Long id, Persona persona) {
 		Persona personaActual = personaDao.findById(id).orElse(null);
+		Persona personaActualizada = null;
 		if (personaActual == null) {
 			throw new NotFoundException("No existe la persona");
 		}
@@ -57,7 +58,8 @@ public class PersonaServiceImpl implements IPersonaService {
 		personaActual.setNumeroDni(persona.getNumeroDni());
 		personaActual.setTelefono(persona.getTelefono());
 		personaActual.setTipoDocumento(persona.getTipoDocumento());
-		return personaActual;
+		personaActualizada = personaActual;
+		personaDao.save(personaActualizada);
 	}
 
 	@Override
