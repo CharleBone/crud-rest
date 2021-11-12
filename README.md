@@ -10,7 +10,6 @@ El proyecto consiste en generar una API-REST que exponga un servicio CRUD(Create
 - [Tecnologías y herramientas](#install)
 - [Instalacion](#instalacion)
 - [Api](#api)
-- [Ejemplos](#ejemplos)
 - [Consideraciones](#consideraciones)
 
 
@@ -19,8 +18,7 @@ El proyecto consiste en generar una API-REST que exponga un servicio CRUD(Create
 * [Java8] - Lenguaje de programación
 * [Git] - Versionado
 * [Maven] - Paquetización y dependencias
-* [Spring-boot] - Server
-* [Spring-core] - Framework de trabajo
+* [Spring-boot] - Framework
 * [MySql] - Base de datos
 * [GitHub] - Repositorio y manual de uso
 
@@ -46,8 +44,18 @@ $ git clone https://github.com/CharleBone/crud-rest.git
 
 # API
 
-- La aplicación está configurada por defecto en el puesto 8001, este se puede cambiar el el archivo de applicacion.properties por el puerto de su preferencia.
+| DESCRIPCION  | URL | PETICION  | HEADER  | RESPUESTA
+| ------ | ------ | ------ | ------ | ------ |
+| Mostrar una lista de Personas | https://crud-spring-api-rest.herokuapp.com/api/personas | GET| | JSON | 
+| Agregar Persona | https://crud-spring-api-rest.herokuapp.com/api/personas/ | POST | Content-Type: application/json |
+| Buscar Persona | https://crud-spring-api-rest.herokuapp.com/api/personas/id | GET |   | JSON
+| Actualizar Persona | https://crud-spring-api-rest.herokuapp.com/api/personas/id | PUT | Content-Type: application/json | 
+| Eliminar Persona | https://crud-spring-api-rest.herokuapp.com/api/personas/id | DELETE    | Content-Type: application/json
+| Estadisticas Generales | https://crud-spring-api-rest.herokuapp.com/api/estadisticas | GET |  | JSON | 
 
+![img_1.png](img_1.png)
+
+![img_2.png](img_2.png)
 ------
 
 # Consideraciones

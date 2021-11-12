@@ -15,7 +15,7 @@ import com.crud.rest.models.service.IPersonaService;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-public class CRUDTest {
+public class PersonaServiceTests {
 	
 	@Autowired
     private IPersonaService personaService;
