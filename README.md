@@ -10,6 +10,7 @@ El proyecto consiste en generar una API-REST que exponga un servicio CRUD(Create
 - [Tecnologías y herramientas](#install)
 - [Instalacion](#instalacion)
 - [Api](#api)
+- [Local](#local)
 - [Consideraciones](#consideraciones)
 
 
@@ -54,6 +55,12 @@ $ git clone https://github.com/CharleBone/crud-rest.git
 | Estadisticas Generales | https://crud-spring-api-rest.herokuapp.com/api/estadisticas | GET |  | JSON | 
 
 [![N|Solid](https://github.com/CharleBone/crud-rest/blob/master/src/main/resources/static/imagenes_ejemplo/agregarPersona.PNG)]
+
+
+------
+# Local
+
+Para usar el servicio de forma local se debe crear una base de datos en el puerto 3306 con el nombre  "db_abm_rest"
 
 ------
 
