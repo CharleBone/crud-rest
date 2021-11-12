@@ -53,9 +53,8 @@ $ git clone https://github.com/CharleBone/crud-rest.git
 | Eliminar Persona | https://crud-spring-api-rest.herokuapp.com/api/personas/id | DELETE    | Content-Type: application/json
 | Estadisticas Generales | https://crud-spring-api-rest.herokuapp.com/api/estadisticas | GET |  | JSON | 
 
-![img_1.png](img_1.png)
+https://github.com/CharleBone/crud-rest/blob/master/src/main/resources/static/imagenes_ejemplo/agregarPersona.PNG
 
-![img_2.png](img_2.png)
 ------
 
 # Consideraciones
